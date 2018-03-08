@@ -115,11 +115,27 @@ open class AttributedLabel: UIView {
     }
     /// Support for constraint-based layout (auto layout)
     /// If nonzero, this is used when determining -intrinsicContentSize for multiline labels
-    open var preferredMaxLayoutWidth: CGFloat = 0
+    @IBInspectable
+    open var preferredMaxLayoutWidth: CGFloat = 0 {
+        didSet {
+            if oldValue != preferredMaxLayoutWidth {
+                invalidateIntrinsicContentSize()
+                setNeedsDisplay()
+            }
+        }
+    }
 
     /// If need to use intrinsicContentSize set true.
     /// Also should call invalidateIntrinsicContentSize when intrinsicContentSize is cached. When text was changed for example.
-    public var usesIntrinsicContentSize = false
+    @IBInspectable
+    open var usesIntrinsicContentSize = false {
+        didSet {
+            if oldValue != usesIntrinsicContentSize {
+                invalidateIntrinsicContentSize()
+                setNeedsDisplay()
+            }
+        }
+    }
 
     var mergedAttributedText: NSAttributedString? {
         if let attributedText = attributedText {
